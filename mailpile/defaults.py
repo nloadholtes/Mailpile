@@ -68,7 +68,7 @@ if __name__ == "__main__":
     # Make i18n stuff not break
     mailpile.config._ = lambda x: x
 
-    print '%s' % (ConfigDict(_name='mailpile',
+    print('%s' % (ConfigDict(_name='mailpile',
                              _comment='Default configuration',
                              _rules=mailpile.defaults.CONFIG_RULES
-                             ).as_config_bytes(), )
+                             ).as_config_bytes(), ))
