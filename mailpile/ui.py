@@ -265,7 +265,7 @@ class UserInteraction:
         #                  strictly in case it somehow came from user
         #                  data.
         return env.get_template(fn)
-      except (IOError, OSError, AttributeError), e:
+      except (IOError, OSError, AttributeError) as e:
         pass
     return None
 
@@ -289,7 +289,7 @@ class UserInteraction:
                      ' or '.join([escape_html(tn) for tn in tpl_names]),
                      escape_html('%.4096s' % alldata))
     except (TemplateError, TemplateSyntaxError, TemplateAssertionError,
-            TemplateNotFound, TemplatesNotFound), e:
+            TemplateNotFound, TemplatesNotFound) as e:
       emsg = _("<h1>Template error in %s</h1>\n"
               "Parsing template %s: <b>%s</b> on line %s<br/>"
               "<div><xmp>%s</xmp><hr><p><b>DATA:</b> %s</p></div>")
@@ -355,7 +355,7 @@ class HttpUserInteraction(UserInteraction):
     pass
 
   def print_filters(self, args):
-    print args
+    print(args)
     return args
 
 
