@@ -1,10 +1,16 @@
 import email
 import re
-import rfc822
+try:
+    import rfc822
+except ImportError:
+    import email as rfc822
 import time
 import traceback
 
-from urllib import quote, unquote
+try:
+    from urllib import quote, unquote
+except ImportError:
+    from urllib.parse import quote, unquote
 import lxml.html
 
 import mailpile.plugins as plugins
@@ -104,16 +110,16 @@ class MailIndex:
         self.EMAILS_SAVED = 0
 
     def l2m(self, line):
-        return line.decode('utf-8').split(u'\t')
+        return line.decode('utf-8').split(unicode('\t'))
 
     # A translation table for message parts stored in the index, consists of
     # a mapping from unicode ordinals to either another unicode ordinal or
     # None, to remove a character. By default it removes the ASCII control
     # characters and replaces tabs and newlines with spaces.
     NORM_TABLE = dict([(i, None) for i in range(0, 0x20)], **{
-        ord(u'\t'): ord(u' '),
-        ord(u'\r'): ord(u' '),
-        ord(u'\n'): ord(u' '),
+        ord(unicode('\t')): ord(unicode(' ')),
+        ord(unicode('\r')): ord(unicode(' ')),
+        ord(unicode('\n')): ord(unicode(' ')),
         0x7F: None
     })
 
@@ -121,7 +127,7 @@ class MailIndex:
         # Normalize the message before saving it so we can be sure that we will
         # be able to read it back later.
         parts = [unicode(p).translate(self.NORM_TABLE) for p in message]
-        return (u'\t'.join(parts)).encode('utf-8')
+        return (unicode('\t').join(parts)).encode('utf-8')
 
     def load(self, session=None):
         self.INDEX = []
@@ -325,7 +331,7 @@ class MailIndex:
                                      self.hdr(msg, 'to')])).strip()
         # Fall back to the msg_ptr if all else fails.
         if not raw_msg_id:
-            print _('WARNING: No proper Message-ID for %s') % msg_ptr
+            print(_('WARNING: No proper Message-ID for %s') % msg_ptr)
         return b64c(sha1b64((raw_msg_id or msg_ptr).strip()))
 
     def scan_mailbox(self, session, mailbox_idx, mailbox_fn, mailbox_opener):
@@ -338,7 +344,7 @@ class MailIndex:
             else:
                 session.ui.mark(_('%s: Checking: %s')
                     % (mailbox_idx, mailbox_fn))
-        except (IOError, OSError, NoSuchMailboxError), e:
+        except (IOError, OSError, NoSuchMailboxError) as e:
             session.ui.mark(_('%s: Error opening: %s (%s)'
                              ) % (mailbox_idx, mailbox_fn, e))
             return 0
