@@ -50,7 +50,7 @@ class VCardLine(dict):
         ";": "\\;",
         "\n": "\\n",
     }
-    QUOTE_RMAP = dict([(v, k) for k, v in QUOTE_MAP.iteritems()])
+    QUOTE_RMAP = dict([(v, k) for k, v in QUOTE_MAP.items()])
 
     def __init__(self, line=None, name=None, value=None, **attrs):
         self._name = name and unicode(name).lower() or None
@@ -392,8 +392,8 @@ class SimpleVCard(object):
                 for pid, version in pv:
                     try:
                         cpm[int(pid)]['lines'].append((int(version), vcl))
-                    except KeyError, e:
-                        print "KNOWN BUG IN VERSIONING CODE. [%s] [pid: %s] [cpm: %s]" % (e, pid, cpm)
+                    except KeyError as e:
+                        print("KNOWN BUG IN VERSIONING CODE. [%s] [pid: %s] [cpm: %s]" % (e, pid, cpm))
         return cpm
 
     def merge(self, src_id, lines):
@@ -634,14 +634,14 @@ class SimpleVCard(object):
 
         if (not lines.pop(0).upper() == 'BEGIN:VCARD' or
                 not lines.pop(-1).upper() == 'END:VCARD'):
-            print '%s' % lines
+            print('%s' % lines)
             raise ValueError('Not a valid VCard')
 
         for line in lines:
             try:
                 self.add(VCardLine(line))
             except:
-                print 'Bad data: %s' % lines
+                print('Bad data: %s' % lines)
                 raise
 
         return self
@@ -847,6 +847,6 @@ if __name__ == "__main__":
     cfg = mailpile.config.ConfigManager(rules=mailpile.defaults.CONFIG_RULES)
     results = doctest.testmod(optionflags=doctest.ELLIPSIS,
                               extraglobs={'cfg': cfg})
-    print '%s' % (results, )
+    print('%s' % (results, ))
     if results.failed:
         sys.exit(1)
