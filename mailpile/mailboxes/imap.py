@@ -1,7 +1,7 @@
 try:
     import cStringIO as StringIO
 except ImportError:
-    import StringIO
+    from io import StringIO
 
 from imaplib import IMAP4, IMAP4_SSL
 from mailbox import Mailbox, Message
