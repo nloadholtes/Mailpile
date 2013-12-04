@@ -320,7 +320,7 @@ class Rescan(Command):
                     GlobalPostingList.Optimize(session, idx, quick=True)
             else:
                 session.ui.mark(_('Nothing changed'))
-        except (KeyboardInterrupt, subprocess.CalledProcessError), e:
+        except (KeyboardInterrupt, subprocess.CalledProcessError) as e:
             session.ui.mark(_('Aborted: %s') % e)
             self._ignore_exception()
             return {'aborted': True,
