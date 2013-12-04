@@ -11,7 +11,10 @@
 #
 ###############################################################################
 import copy
-import cPickle
+try:
+  import cPickle
+except ImportError:
+  import pickle as cPickle
 import email.header
 import email.parser
 import email.utils
@@ -21,7 +24,10 @@ import mailbox
 import mimetypes
 import os
 import re
-import rfc822
+try:
+  import rfc822
+except ImportError:
+  import email as rfc822
 import threading
 import traceback
 
@@ -32,8 +38,11 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from platform import system
-from urllib import quote, unquote
-
+try:
+    from urllib import quote, unquote
+except ImportError:
+    from urllib.parse import quote, unquote
+    
 from smtplib import SMTP, SMTP_SSL
 
 from mailpile.mailboxes.imap import IMAPMailbox
@@ -438,7 +447,7 @@ class IncrementalMbox(mailbox.mbox):
         if not os.path.exists(self._path):
           raise NoSuchMailboxError(self._path)
         self._file = self._get_fd()
-      except IOError, e:
+      except IOError as e:
         if e.errno == errno.ENOENT:
           raise NoSuchMailboxError(self._path)
         elif e.errno == errno.EACCES:
@@ -820,7 +829,7 @@ class Email(object):
         return mbox, msg_ptr, fd
       except (IOError, OSError):
         # FIXME: If this pointer is wrong, should we fix the index?
-        print '%s not in %s' % (msg_ptr, self)
+        print('%s not in %s' % (msg_ptr, self))
     return None, None, None
 
   def get_file(self):
@@ -1024,8 +1033,8 @@ class Email(object):
       try:
         payload = payload.decode('iso-8859-1')
         charset = 'iso-8859-1'
-      except UnicodeDecodeError, e:
-        print _('Decode failed: %s %s') % (charset, e)
+      except UnicodeDecodeError as e:
+        print(_('Decode failed: %s %s') % (charset, e))
     try:
       openpgp = part.openpgp
     except AttributeError:
@@ -1127,8 +1136,8 @@ class Email(object):
             message = ''.join([p['data'].encode(p['charset']) for p in pgpdata])
             pgpdata[0]['openpgp_data'] = gpg.verify(message)
             pgpdata[0]['openpgp_status'] = 'signed'
-          except Exception, e:
-            print e
+          except Exception as e:
+            print(e)
 
       if decrypt:
         if part['type'] in ('pgpbegin', 'pgptext'):
