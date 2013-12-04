@@ -19,10 +19,8 @@ import hashlib
 import locale
 import mailbox
 import os
-import cPickle
 import random
 import re
-import rfc822
 import socket
 import struct
 import subprocess
@@ -30,9 +28,6 @@ import sys
 import tempfile
 import threading
 import time
-import SocketServer
-from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
-from urlparse import parse_qs, urlparse
 import lxml.html
 import gettext
 
@@ -82,12 +77,12 @@ def Interact(session):
           arg = ''
         try:
           session.ui.display_result(Action(session, opt, arg))
-        except UsageError, e:
+        except UsageError as e:
           session.error(unicode(e))
-        except UrlRedirectException, e:
+        except UrlRedirectException as e:
           session.error('Tried to redirect to: %s' % e.url)
   except EOFError:
-    print
+    print()
 
   try:
     if session.config.sys.history_length > 0:
@@ -114,7 +109,7 @@ def Main(args):
     session.ui = UserInteraction(config)
     if sys.stdout.isatty():
       session.ui.palette = ANSIColors()
-  except AccessError, e:
+  except AccessError as e:
     sys.stderr.write('Access denied: %s\n' % e)
     sys.exit(1)
 
@@ -138,7 +133,7 @@ def Main(args):
       if args:
         Action(session, args[0], ' '.join(args[1:]).decode('utf-8'))
 
-    except (getopt.GetoptError, UsageError), e:
+    except (getopt.GetoptError, UsageError) as e:
       session.error(e)
 
     if not opts and not args:
