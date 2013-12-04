@@ -2,7 +2,11 @@ import mailbox
 import sys
 import os
 import warnings
-import rfc822
+try:
+    import rfc822
+except ImportError:
+    import email as rfc822
+
 import time
 import errno
 
@@ -57,7 +61,7 @@ class MacMaildir(mailbox.Mailbox):
             self.remove(key)
         except KeyError:
             pass
-        except OSError, e:
+        except OSError as e:
             if e.errno != errno.ENOENT:
                 raise
 
