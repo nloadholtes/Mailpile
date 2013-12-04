@@ -13,7 +13,10 @@ import string
 import tempfile
 import threading
 import time
-import StringIO
+try:
+    import StringIO
+except ImportError:
+    from io import StringIO
 
 try:
     import Image
@@ -42,9 +45,14 @@ BORING_HEADERS = ('received', 'date',
 
 B64C_STRIP = '\n='
 
-B64C_TRANSLATE = string.maketrans('/', '_')
+try:
+    B64C_TRANSLATE = string.maketrans('/', '_')
 
-B64W_TRANSLATE = string.maketrans('/+', '_-')
+    B64W_TRANSLATE = string.maketrans('/+', '_-')
+except Exception as e:
+    B64C_TRANSLATE = str.maketrans('/', '_')
+
+    B64W_TRANSLATE = str.maketrans('/+', '_-')
 
 STRHASH_RE = re.compile('[^0-9a-z]+')
 
@@ -83,7 +91,7 @@ def b64c(b):
     >>> b64c("a+b+c+123+")
     'a+b+c+123+'
     """
-    return string.translate(b, B64C_TRANSLATE, B64C_STRIP)
+    return b.translate(B64C_TRANSLATE, B64C_STRIP)
 
 
 def b64w(b):
@@ -96,7 +104,7 @@ def b64w(b):
     >>> b64w("a+b+c+123+")
     'a-b-c-123-'
     """
-    return string.translate(b, B64W_TRANSLATE, B64C_STRIP)
+    return b.translate(B64W_TRANSLATE, B64C_STRIP)
 
 
 def escape_html(t):
