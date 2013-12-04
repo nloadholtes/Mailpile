@@ -1,13 +1,22 @@
 import copy
-import cPickle
+try:
+    import cPickle
+except ImportError:
+    import pickle as cPickle
 import io
 import json
 import os
 import re
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 from gettext import translation, gettext
 
-from urllib import quote, unquote
+try:
+    from urllib import quote, unquote
+except ImportError:
+    from urllib.parse import quote, unquote
 
 import mailpile.util
 from mailpile.commands import Rescan
@@ -842,8 +851,8 @@ class ConfigManager(ConfigDict):
                     cfg = cfg[part]
                 else:
                     if session:
-                        msg = gettext(u'Invalid (%s): section %s does not '
-                                       'exist') % (source, section)
+                        msg = gettext(unicode('Invalid (%s): section %s does not '
+                                       'exist')) % (source, section)
                         session.ui.warning(msg)
                     okay = False
             items = okay and parser.items(section) or []
@@ -853,7 +862,7 @@ class ConfigManager(ConfigDict):
                     cfg[var] = val
                 except (ValueError, KeyError):
                     if session:
-                        msg = gettext(u'Invalid (%s): section %s, variable %s'
+                        msg = gettext(unicode('Invalid (%s): section %s, variable %s')
                                       ) % (source, section, var)
                         session.ui.warning(msg)
                     okay = False
@@ -1178,8 +1187,8 @@ class OldConfigLoader:
                 elif cat == 'tag':
                     config.tags[var] = {'name': val, 'slug': val.lower()}
 
-            except Exception, e:
-                print _('Could not parse (%s): %s') % (e, line)
+            except Exception as e:
+                print(_('Could not parse (%s): %s') % (e, line))
                 errors += 1
 
         mbox_ids = mailboxes.keys()
@@ -1192,7 +1201,7 @@ class OldConfigLoader:
                     nid = config.sys.mailbox.append('/dev/null')
                 config.sys.mailbox[mbox_id] = mbox_fn
             except IndexError:
-                print _('Could not assign mailbox:%s = %s') % (mbox_id, mbox_fn)
+                print(_('Could not assign mailbox:%s = %s') % (mbox_id, mbox_fn))
 
         for writable in ('Blank', 'Drafts'):
             tid = config.get_tag_id(writable)
@@ -1230,6 +1239,6 @@ if __name__ == "__main__":
     results = doctest.testmod(optionflags=doctest.ELLIPSIS,
                               extraglobs={'cfg': cfg,
                                           'session': session})
-    print '%s' % (results, )
+    print('%s' % (results, ))
     if results.failed:
         sys.exit(1)
