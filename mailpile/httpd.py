@@ -232,7 +232,7 @@ class HttpRequestHandler(SimpleXMLRPCRequestHandler):
       return
     except:
       e = traceback.format_exc()
-      print e
+      print(e)
       if not session.config.sys.debug:
         e = _('Internal error')
       self.send_full_response(e, code=500, mimetype='text/plain')

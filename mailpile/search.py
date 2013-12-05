@@ -325,7 +325,7 @@ class MailIndex:
                                      self.hdr(msg, 'to')])).strip()
         # Fall back to the msg_ptr if all else fails.
         if not raw_msg_id:
-            print _('WARNING: No proper Message-ID for %s') % msg_ptr
+            print(_('WARNING: No proper Message-ID for %s') % msg_ptr)
         return b64c(sha1b64((raw_msg_id or msg_ptr).strip()))
 
     def scan_mailbox(self, session, mailbox_idx, mailbox_fn, mailbox_opener):

@@ -162,8 +162,8 @@ class MorkImporter(VCardImporter):
             rowkey = row.id + "/" + table.scope
 
         if rowkey in table.rows:
-            print >>stderr, "ERROR: duplicate rowid/scope %s" % rowkey
-            print >>stderr, cells
+            stderr.write("ERROR: duplicate rowid/scope %s\n" % rowkey)
+            stderr.write(cells)
 
         table.rows[rowkey] = row
 
@@ -273,7 +273,7 @@ class MorkImporter(VCardImporter):
 
             match = pRow.match(sub)
             if match and tran:
-                # print >>stderr, "WARNING: using table '1:^80' for dangling row: %s" % match.group()
+                # stderr.write("WARNING: using table '1:^80' for dangling row: %s\n" % match.group())
                 rowid = match.group(2)
                 if rowid[0] == '-':
                     rowid = rowid[1:]
@@ -285,8 +285,8 @@ class MorkImporter(VCardImporter):
                 continue
 
             # Syntax error
-            print >>stderr, "ERROR: syntax error while parsing MORK file"
-            print >>stderr, "context[%d]: %s" % (index, sub[:40])
+            stderr.write("ERROR: syntax error while parsing MORK file\n")
+            stderr.write("context[%d]: %s\n" % (index, sub[:40]))
             index += 1
 
         # Return the database
@@ -329,7 +329,7 @@ class MorkImporter(VCardImporter):
     def get_vcards(self):
         self.load()
         people = self.morkToHash()
-        # print people
+        # print(people)
 
         results = []
         vcards = {}
@@ -351,6 +351,6 @@ if __name__ == "__main__":
 
     m = MorkImporter(filename=filename)
     m.load()
-    print m.get_contacts(data)
+    print(m.get_contacts(data))
 else:
     mailpile.plugins.register_vcard_importers(MorkImporter)

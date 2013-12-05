@@ -306,11 +306,11 @@ u:Smari McCarthy <smari@immi.is>::scESC:\\nsub:u:4096:1:13E0BB42176BA0AC:\
 
         def parse_revoke(line, curkey, keys):
             # FIXME: Do something more to this
-            print line
+            print(line)
             return (curkey, keys)
 
         def parse_unknown(line, curkey, keys):
-            print "Unknown line with code '%s'" % line[0]
+            print("Unknown line with code '%s'" % line[0])
             return (curkey, keys)
 
         def parse_none(line, curkey, keys):
@@ -366,8 +366,8 @@ u:Smari McCarthy <smari@immi.is>::scESC:\\nsub:u:4096:1:13E0BB42176BA0AC:\
                 continue
             self.pipes[fd] = os.pipe()
             if debug: 
-                print "Opening fd %s, fh %d, mode %s" % (fd, 
-                    self.pipes[fd][self.fds[fd]], ["r", "w"][self.fds[fd]])
+                print("Opening fd %s, fh %d, mode %s" % (fd,
+                    self.pipes[fd][self.fds[fd]], ["r", "w"][self.fds[fd]]))
             args.insert(1, "--%s-fd" % fd)
             # The remote end of the pipe:
             args.insert(2, "%d" % self.pipes[fd][not self.fds[fd]])
@@ -378,7 +378,7 @@ u:Smari McCarthy <smari@immi.is>::scESC:\\nsub:u:4096:1:13E0BB42176BA0AC:\
             fl = fcntl.fcntl(self.handles[fd], fcntl.F_GETFL)
             fcntl.fcntl(self.handles[fd], fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-        if debug: print "Running gpg as: %s" % " ".join(args)
+        if debug: print("Running gpg as: %s" % " ".join(args))
 
         proc = Popen(args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
 
@@ -406,7 +406,7 @@ u:Smari McCarthy <smari@immi.is>::scESC:\\nsub:u:4096:1:13E0BB42176BA0AC:\
                 pass
 
             for fd in ["stdout", "stderr"]:
-                if debug: print "Reading %s" % fd
+                if debug: print("Reading %s" % fd)
 
                 try:
                     buf = self.handles[fd].read()
@@ -592,7 +592,7 @@ if __name__ == "__main__":
     # print g.recv_key("c903bef1")
 
     # print g.list_secret_keys()
-    print g.address_to_keys("smari@immi.is")
+    print(g.address_to_keys("smari@immi.is"))
     # import doctest
     # t = doctest.testmod()
     # if t.failed == 0:

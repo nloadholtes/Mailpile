@@ -251,6 +251,6 @@ if __name__ == "__main__":
     import sys
     result = doctest.testmod(optionflags=doctest.ELLIPSIS,
                              extraglobs={'junk': {}})
-    print '%s' % (result, )
+    print('%s' % (result, ))
     if result.failed:
         sys.exit(1)

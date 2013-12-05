@@ -456,7 +456,7 @@ class Extract(Command):
             cid = self.args.pop(-1)
 
         eids = self._choose_messages(self.args)
-        print 'Download %s from %s as %s/%s' % (cid, eids, mode, name_fmt)
+        print('Download %s from %s as %s/%s' % (cid, eids, mode, name_fmt))
 
         emails = [Email(idx, i) for i in eids]
         results = []

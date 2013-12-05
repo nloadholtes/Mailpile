@@ -1179,7 +1179,7 @@ class OldConfigLoader:
                     config.tags[var] = {'name': val, 'slug': val.lower()}
 
             except Exception, e:
-                print _('Could not parse (%s): %s') % (e, line)
+                print(_('Could not parse (%s): %s') % (e, line))
                 errors += 1
 
         mbox_ids = mailboxes.keys()
@@ -1192,7 +1192,7 @@ class OldConfigLoader:
                     nid = config.sys.mailbox.append('/dev/null')
                 config.sys.mailbox[mbox_id] = mbox_fn
             except IndexError:
-                print _('Could not assign mailbox:%s = %s') % (mbox_id, mbox_fn)
+                print(_('Could not assign mailbox:%s = %s') % (mbox_id, mbox_fn))
 
         for writable in ('Blank', 'Drafts'):
             tid = config.get_tag_id(writable)
@@ -1230,6 +1230,6 @@ if __name__ == "__main__":
     results = doctest.testmod(optionflags=doctest.ELLIPSIS,
                               extraglobs={'cfg': cfg,
                                           'session': session})
-    print '%s' % (results, )
+    print('%s' % (results, ))
     if results.failed:
         sys.exit(1)

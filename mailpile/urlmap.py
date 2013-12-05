@@ -500,7 +500,7 @@ class UrlMap:
 
     def print_map_markdown(self):
         """Prints the current URL map to stdout in markdown"""
-        print self.map_as_markdown()
+        print(self.map_as_markdown())
 
 
 class UrlRedirect(Command):
@@ -546,7 +546,7 @@ class HelpUrlMap(Command):
                 html = markdown(str(self.result['urlmap']))
             except:
                 import traceback
-                print traceback.format_exc()
+                print(traceback.format_exc())
                 html = '<pre>%s</pre>' % escape_html(self.result['urlmap'])
             self.result['markdown'] = html
             return Command.CommandResult.as_html(self, *args, **kwargs)
@@ -587,6 +587,6 @@ else:
                               extraglobs={'urlmap': urlmap,
                                           'request': None})
     print
-    print '<!-- %s -->' % (results, )
+    print('<!-- %s -->' % (results, ))
     if results.failed:
         sys.exit(1)

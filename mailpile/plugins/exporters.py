@@ -62,7 +62,7 @@ class ExportMail(Command):
             m = e.get_msg()
             # FIXME: This doesn't work
             #tags = [t.slug for t in e.get_message_tags()]
-            #print 'Tags: %s' % tags
+            #print('Tags: %s' % tags)
             #m['X-Mailpile-Tags'] = ', '.join(tags)
             mbox.add(m)
         mbox.flush()

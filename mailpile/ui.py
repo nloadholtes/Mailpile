@@ -355,7 +355,7 @@ class HttpUserInteraction(UserInteraction):
     pass
 
   def print_filters(self, args):
-    print args
+    print(args)
     return args
 
 

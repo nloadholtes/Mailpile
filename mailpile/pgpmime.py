@@ -23,10 +23,10 @@ class PGPMimeParser(Parser):
                 result = None
                 gpg = GnuPG()
                 status = gpg.verify(msg, sig)
-                print status
+                print(status)
 
                 for sig_part in sig_parts:
-                    print "sig_part: ", dir(sig_part), type(sig_part)
+                    print("sig_part: ", dir(sig_part), type(sig_part))
                     sig_part.openpgp = ("signed", status)
                     part.openpgp = ("signed", status)
 

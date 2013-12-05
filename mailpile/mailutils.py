@@ -820,7 +820,7 @@ class Email(object):
         return mbox, msg_ptr, fd
       except (IOError, OSError):
         # FIXME: If this pointer is wrong, should we fix the index?
-        print '%s not in %s' % (msg_ptr, self)
+        print('%s not in %s' % (msg_ptr, self))
     return None, None, None
 
   def get_file(self):
@@ -1025,7 +1025,7 @@ class Email(object):
         payload = payload.decode('iso-8859-1')
         charset = 'iso-8859-1'
       except UnicodeDecodeError, e:
-        print _('Decode failed: %s %s') % (charset, e)
+        print(_('Decode failed: %s %s') % (charset, e))
     try:
       openpgp = part.openpgp
     except AttributeError:
@@ -1128,7 +1128,7 @@ class Email(object):
             pgpdata[0]['openpgp_data'] = gpg.verify(message)
             pgpdata[0]['openpgp_status'] = 'signed'
           except Exception, e:
-            print e
+            print(e)
 
       if decrypt:
         if part['type'] in ('pgpbegin', 'pgptext'):
