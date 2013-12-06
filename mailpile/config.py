@@ -11,7 +11,7 @@ try:
     import ConfigParser
 except ImportError:
     import configparser as ConfigParser
-from gettext import translation, gettext
+from gettext import translation, gettext, NullTranslations
 
 try:
     from urllib import quote, unquote
@@ -1060,11 +1060,10 @@ class ConfigManager(ConfigDict):
                 if session:
                     session.ui.warning('Failed to load language %s' % language)
         if not trans:
-            try:
-                trans = translation("mailpile", "locale", codeset='utf-8')
-            except IOError:
-                if session:
-                    session.ui.warning('Failed to configure i18n')
+            trans = translation("mailpile", "locale", codeset='utf-8', fallback=True)
+            if session and isinstance(trans, NullTranslations):
+                session.ui.warning('Failed to configure i18n. Using fallback.')
+
         if trans:
             trans.set_output_charset("utf-8")
             trans.install(unicode=True)
